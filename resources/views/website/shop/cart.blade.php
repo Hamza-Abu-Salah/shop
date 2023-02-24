@@ -1,0 +1,80 @@
+@extends('website.include.master')
+
+@section('title', 'shop')
+
+@section('content')
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content">
+                        <h1 class="page-name">Cart</h1>
+                        <ol class="breadcrumb">
+                            <li><a href="index.html">Home</a></li>
+                            <li class="active">cart</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="page-wrapper">
+        <div class="cart shopping">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="block">
+                            <div class="product-list">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="">Name</th>
+                                            <th class="">Price</th>
+                                            <th class="">Quantity</th>
+                                            <th class="">Total</th>
+                                            <th class="">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($carts as $cart)
+                                            <tr class="">
+                                                <td class="">
+                                                    <div class="product-info">
+                                                        <img width="80"
+                                                            src="{{ asset('uploads/' . $cart->product->image1) }}"
+                                                            alt="">
+                                                        <a
+                                                            href="">{{ $cart->product->name }}</a>
+                                                            {{-- {{ route('site.product', $cart->product_id) }} --}}
+                                                    </div>
+                                                </td>
+                                                <td>${{ $cart->price }}</td>
+                                                <td>{{ $cart->quantity }}</td>
+                                                <td class="">
+                                                    ${{ number_format($cart->quantity * $cart->price, 2) }}</td>
+                                                <td class="">
+                                                    <form action="{{ route('site.delete_cart', $cart->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="product-remove">Remove</button>
+                                                    </form>
+                                                    {{-- <a class="product-remove" href="{{ route('site.delete_cart', $cart->id) }}">Remove</a> --}}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <a href="" class="btn btn-main pull-right">Checkout</a>
+                                {{-- {{ route('site.checkout') }} --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@stop
